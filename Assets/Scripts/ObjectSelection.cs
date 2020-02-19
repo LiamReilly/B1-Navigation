@@ -5,7 +5,8 @@ using UnityEngine.AI;
 
 public class ObjectSelection : MonoBehaviour
 {
-    
+   //This script no longer needs to exist
+    /*      
     Vector3 desiredLoc;
     public GameObject target;
     // Start is called before the first frame update

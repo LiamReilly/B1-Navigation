@@ -8,7 +8,7 @@ public class AgentCreater : MonoBehaviour
     public GameObject agent;
     public int agentCount;
     Vector3 location;
-
+     
     
     // Start is called before the first frame update
     void Start()
