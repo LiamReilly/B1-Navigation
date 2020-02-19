@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -6278722848684468517}
   m_Layer: 0
   m_Name: Agent
-  m_TagString: Untagged
+  m_TagString: Agent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,8 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d70e1b00ad9157346a3d39e0b74f2e4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  desiredLoc: {fileID: 6511340818827075963, guid: fc78cc47eff0b664289b48b958d8e086,
-    type: 3}
 --- !u!54 &-2973373742144373770
 Rigidbody:
   m_ObjectHideFlags: 0

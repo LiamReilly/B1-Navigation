@@ -10,22 +10,26 @@ public class SetTarger : MonoBehaviour
 
     //GameObject desiredLoc;
     NavMeshAgent agentFab;
-    GameObject mainCamera;
-    Vector3 desiredLoc;
-    Camera cam;
+    //GameObject mainCamera;
+    //Vector3 desiredLoc;
+    //Camera cam;
+    //public bool Active;
+    //public static HashSet<GameObject> GroupAgents = new HashSet<GameObject>();
 
     // Start is called before the first frame update
     void Start()
     {
 
         //desiredLoc = GameObject.Find("Target(Clone)");
-        mainCamera = GameObject.Find("Main Camera");
+        //mainCamera = GameObject.Find("Main Camera");
         agentFab = GetComponent<NavMeshAgent>();
-        agentFab.SetDestination(gameObject.transform.position);
-        cam = mainCamera.GetComponent<Camera>();
+        //agentFab.SetDestination(gameObject.transform.position);
+        //cam = mainCamera.GetComponent<Camera>();
+        //agentFab.SetDestination(gameObject.transform.position);
+        
 
     }
-
+    /*
     // Update is called once per frame
     void Update()
     {
@@ -34,24 +38,53 @@ public class SetTarger : MonoBehaviour
         //loc = new Vector3(0f, 0.5f, 0f);
         //agentFab.SetDestination(loc);
         //agent.SetDestination(ObjectSelect.gameObject.GetComponent<ObjectSelection>().desiredLoc);
-        if (Input.GetMouseButtonDown(0))
+        /* if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition); 
-            RaycastHit hit;
-            
-            if (Physics.Raycast(ray, out hit))
-            {
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            RaycastOnClick();
 
-                Vector3 desiredLoc = hit.point;
-                Debug.Log(desiredLoc);
-                if (hit.transform.tag == "Floor")
+                if (hit.transform.tag == "Agent")
+                {
+                    if (GroupAgents.Contains(hit.transform.gameObject))
+                     { 
+                         GroupAgents.Remove(hit.transform.gameObject);
+                     }
+                     if (!GroupAgents.Contains(hit.transform.gameObject))
+                     {
+                         GroupAgents.Add(hit.transform.gameObject);
+                     }
+            }
+        //Destroy(hit.transform.gameObject);
+    }
+}
+    void RaycastOnClick()
+    {
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+
+            Vector3 desiredLoc = hit.point;
+            Debug.Log(desiredLoc);
+            if (hit.transform.tag == "Floor")
+            {
+                //agentFab.SetDestination(desiredLoc);
+                if (mainCamera.gameObject.GetComponent<ObjectSelection>().IsInList(gameObject))
                 {
                     agentFab.SetDestination(desiredLoc);
                 }
-                //Destroy(hit.transform.gameObject);
             }
         }
+    }*/
+    public void SetDestination(Vector3 destination)
+    {
+        
+            agentFab.SetDestination(destination);
     }
-    
 }
+
+
+
+
+

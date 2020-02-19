@@ -5,15 +5,13 @@ using UnityEngine.AI;
 
 public class ObjectSelection : MonoBehaviour
 {
-   //This script no longer needs to exist
-    /*      
-    Vector3 desiredLoc;
-    public GameObject target;
+    public static HashSet<GameObject> GroupAgents = new HashSet<GameObject>();
+    public Material SelectedColor;
+    public Material DeselectedColor;
     // Start is called before the first frame update
     void Start()
     {
-        target = Instantiate(target, Vector3.zero, Quaternion.identity);
-        //target = GameObject.Find("Target (Clone)");
+        
     }
 
     // Update is called once per frame
@@ -23,22 +21,56 @@ public class ObjectSelection : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
+
             if (Physics.Raycast(ray, out hit))
             {
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-                
+
                 Vector3 desiredLoc = hit.point;
                 Debug.Log(desiredLoc);
+                Debug.Log(hit.transform.tag);
+                if (hit.transform.tag == "Agent")
+                {
+                     if (GroupAgents.Contains(hit.transform.gameObject))
+                     {
+                        MeshRenderer gameObjectRenderer = hit.transform.gameObject.GetComponent<MeshRenderer>();
+                        gameObjectRenderer.material = DeselectedColor;
+                        GroupAgents.Remove(hit.transform.gameObject);
+
+                     }
+                     if (!GroupAgents.Contains(hit.transform.gameObject))
+                     {
+                        MeshRenderer gameObjectRenderer = hit.transform.gameObject.GetComponent<MeshRenderer>();
+                        gameObjectRenderer.material = SelectedColor;
+                        GroupAgents.Add(hit.transform.gameObject);
+                     }
+                }
                 if (hit.transform.tag == "Floor")
                 {
-                    target.transform.position = desiredLoc;
+                    //agentFab.SetDestination(desiredLoc);
+                   // if (Camera.main.gameObject.GetComponent<ObjectSelection>().IsInList(gameObject))
+                    //{
+                        foreach (var item in GroupAgents)
+                        {
+                            item.transform.gameObject.GetComponent<SetTarger>().SetDestination(hit.point);
+                        }
+                        
+                   // }
                 }
                 //Destroy(hit.transform.gameObject);
             }
         }
     }
-    /*public Vector3 SendLoc()
+    public bool IsInList(GameObject agent)
     {
-        return desiredLoc;
-    }*/
+        if (GroupAgents.Contains(agent.transform.gameObject))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
+    
