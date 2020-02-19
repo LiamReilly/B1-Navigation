@@ -5,17 +5,29 @@ using UnityEngine.AI;
 
 public class SetTarger : MonoBehaviour
 {
-    public GameObject target;
-    NavMeshAgent agent;
+
+    //public GameObject ObjectSelect;
+
+    GameObject desiredLoc;
+    NavMeshAgent agentFab;
+    
     // Start is called before the first frame update
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
+
+        desiredLoc = GameObject.Find("Target(Clone)");
+        agentFab = GetComponent<NavMeshAgent>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        agent.SetDestination(target.gameObject.transform.position);
+       
+        agentFab.SetDestination(desiredLoc.transform.position);
+        //loc = new Vector3(0f, 0.5f, 0f);
+        //agentFab.SetDestination(loc);
+        //agent.SetDestination(ObjectSelect.gameObject.GetComponent<ObjectSelection>().desiredLoc);
     }
+    
 }

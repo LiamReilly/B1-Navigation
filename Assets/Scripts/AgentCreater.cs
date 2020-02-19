@@ -15,6 +15,7 @@ public class AgentCreater : MonoBehaviour
     {
         var Count = 0;
         radius = radius * 2;
+        var agParent = GameObject.Find("AgentCreator");
         while (Count < agentCount)
         {
             location = new Vector3((Random.value-0.5f) * radius, 0.5f, (Random.value-0.5f) * radius);
@@ -22,6 +23,7 @@ public class AgentCreater : MonoBehaviour
             
             //newAgent.transform.position = new Vector3((Random.value - 0.5f) * radius, 0.5f, ((Random.value - 0.5f)) * radius);
             newAgent.name = "a" + Count;
+            newAgent.transform.parent = agParent.transform;
             
             Count++;
         }
