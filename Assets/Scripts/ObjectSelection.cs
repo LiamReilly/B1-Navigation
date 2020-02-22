@@ -8,6 +8,9 @@ public class ObjectSelection : MonoBehaviour
     public static HashSet<GameObject> GroupAgents = new HashSet<GameObject>();
     public Material SelectedColor;
     public Material DeselectedColor;
+
+    public GameObject errorSphere;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,20 +20,70 @@ public class ObjectSelection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log("Update");
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+            //RaycastHit hit;
 
+            RaycastHit[] hits = Physics.RaycastAll(ray);
+
+            Debug.Log(hits.Length);
+
+            if(hits.Length == 0)
+            {
+                return;
+            }
+            
+            Vector3 dest = new Vector3(0,0,0);
+
+            foreach(RaycastHit hit in hits)
+            {
+                if(hit.transform.tag == "Floor")
+                {
+                    dest = hit.point;
+                }
+                else
+                    if(hit.transform.tag == "Agent")
+                    {
+                        if(GroupAgents.Contains(hit.transform.gameObject))
+                        {
+                            MeshRenderer gameObjectRenderer = hit.transform.gameObject.GetComponent<MeshRenderer>();
+                            gameObjectRenderer.material = DeselectedColor;
+                            GroupAgents.Remove(hit.transform.gameObject);
+                        }
+                        else
+                        {
+                            MeshRenderer gameObjectRenderer = hit.transform.gameObject.GetComponent<MeshRenderer>();
+                            gameObjectRenderer.material = SelectedColor;
+                            GroupAgents.Add(hit.transform.gameObject);
+                        }
+                        return;
+                    }
+            }
+
+            foreach (var item in GroupAgents)
+            {
+                item.transform.gameObject.GetComponent<SetTarger>().SetDestination(dest);
+            }
+
+            /*
             if (Physics.Raycast(ray, out hit))
             {
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+                Debug.DrawRay(transform.position, ray.direction * hit.distance, Color.yellow);
 
                 Vector3 desiredLoc = hit.point;
+
+                 
+                //var sphere = Instantiate(errorSphere, desiredLoc, Quaternion.identity);
+
                 Debug.Log(desiredLoc);
                 Debug.Log(hit.transform.tag);
+
                 if (hit.transform.tag == "Agent")
                 {
+                    Debug.Log(GroupAgents.Count);
+
                      if (GroupAgents.Contains(hit.transform.gameObject))
                      {
                         MeshRenderer gameObjectRenderer = hit.transform.gameObject.GetComponent<MeshRenderer>();
@@ -38,18 +91,21 @@ public class ObjectSelection : MonoBehaviour
                         GroupAgents.Remove(hit.transform.gameObject);
 
                      }
-                     if (!GroupAgents.Contains(hit.transform.gameObject))
+                     else
                      {
                         MeshRenderer gameObjectRenderer = hit.transform.gameObject.GetComponent<MeshRenderer>();
                         gameObjectRenderer.material = SelectedColor;
                         GroupAgents.Add(hit.transform.gameObject);
                      }
                 }
-                if (hit.transform.tag == "Floor")
+                else if (hit.transform.tag == "Floor")
                 {
                     //agentFab.SetDestination(desiredLoc);
                    // if (Camera.main.gameObject.GetComponent<ObjectSelection>().IsInList(gameObject))
                     //{
+
+                        //var sphere = Instantiate(errorSphere, desiredLoc, Quaternion.identity);
+
                         foreach (var item in GroupAgents)
                         {
                             item.transform.gameObject.GetComponent<SetTarger>().SetDestination(hit.point);
@@ -59,6 +115,7 @@ public class ObjectSelection : MonoBehaviour
                 }
                 //Destroy(hit.transform.gameObject);
             }
+            // */
         }
     }
     public bool IsInList(GameObject agent)

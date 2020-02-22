@@ -5,29 +5,34 @@ using UnityEngine.AI;
 
 public class SetTarger : MonoBehaviour
 {
+    /*
 
-    //public GameObject ObjectSelect;
+    public GameObject ObjectSelect;
+    GameObject desiredLoc;
+    GameObject mainCamera;
+    Vector3 desiredLoc;
+    Camera cam;
+    public bool Active;
+    public static HashSet<GameObject> GroupAgents = new HashSet<GameObject>();
+    // */
 
-    //GameObject desiredLoc;
+    
     NavMeshAgent agentFab;
-    //GameObject mainCamera;
-    //Vector3 desiredLoc;
-    //Camera cam;
-    //public bool Active;
-    //public static HashSet<GameObject> GroupAgents = new HashSet<GameObject>();
 
     // Start is called before the first frame update
     void Start()
     {
 
-        //desiredLoc = GameObject.Find("Target(Clone)");
-        //mainCamera = GameObject.Find("Main Camera");
         agentFab = GetComponent<NavMeshAgent>();
-        //agentFab.SetDestination(gameObject.transform.position);
-        //cam = mainCamera.GetComponent<Camera>();
-        //agentFab.SetDestination(gameObject.transform.position);
-        
 
+
+        /*
+        desiredLoc = GameObject.Find("Target(Clone)");
+        mainCamera = GameObject.Find("Main Camera");
+        agentFab.SetDestination(gameObject.transform.position);
+        cam = mainCamera.GetComponent<Camera>();
+        agentFab.SetDestination(gameObject.transform.position);
+        // */
     }
     /*
     // Update is called once per frame
@@ -55,7 +60,7 @@ public class SetTarger : MonoBehaviour
             }
         //Destroy(hit.transform.gameObject);
     }
-}
+
     void RaycastOnClick()
     {
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
@@ -77,6 +82,7 @@ public class SetTarger : MonoBehaviour
             }
         }
     }*/
+
     public void SetDestination(Vector3 destination)
     {
         
