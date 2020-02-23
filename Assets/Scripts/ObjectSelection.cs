@@ -51,7 +51,8 @@ public class ObjectSelection : MonoBehaviour
                             MeshRenderer gameObjectRenderer = hit.transform.gameObject.GetComponent<MeshRenderer>();
                             gameObjectRenderer.material = DeselectedColor;
                             GroupAgents.Remove(hit.transform.gameObject);
-                        }
+                            hit.transform.gameObject.GetComponent<SetTarger>().SetDestination(hit.transform.position);
+                    }
                         else
                         {
                             MeshRenderer gameObjectRenderer = hit.transform.gameObject.GetComponent<MeshRenderer>();
