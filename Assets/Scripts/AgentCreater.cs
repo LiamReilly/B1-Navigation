@@ -16,10 +16,14 @@ public class AgentCreater : MonoBehaviour
         var Count = 0;
         radius = radius * 2;
         var agParent = GameObject.Find("AgentCreator");
+
         while (Count < agentCount)
         {
             location = new Vector3((Random.value-0.5f) * radius, 0.5f, (Random.value-0.5f) * radius);
             var newAgent = Instantiate(agent, location, Quaternion.identity);
+
+            //var a = newAgent.GetComponent<Rigidbody>();
+            //a.AddForce(100,0,0);
             
             //newAgent.transform.position = new Vector3((Random.value - 0.5f) * radius, 0.5f, ((Random.value - 0.5f)) * radius);
             newAgent.name = "a" + Count;
