@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\AgentCreater.cs" />
     <Compile Include="Assets\Scripts\CameraMovement.cs" />
+    <Compile Include="Assets\Scripts\Dynamicobstacles.cs" />
     <Compile Include="Assets\Scripts\ObjectSelection.cs" />
     <Compile Include="Assets\Scripts\SetTarger.cs" />
     <Reference Include="Unity.Timeline.Editor">

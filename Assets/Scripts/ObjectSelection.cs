@@ -8,8 +8,9 @@ public class ObjectSelection : MonoBehaviour
     public static HashSet<GameObject> GroupAgents = new HashSet<GameObject>();
     public Material SelectedColor;
     public Material DeselectedColor;
-
+    public static HashSet<GameObject> moveableObstacles = new HashSet<GameObject>();
     public GameObject errorSphere;
+    bool objectsMoveable;
 
     // Start is called before the first frame update
     void Start()
@@ -61,6 +62,22 @@ public class ObjectSelection : MonoBehaviour
                         }
                         return;
                     }
+                if (hit.transform.tag == "moveObstacle")
+                {
+                   if(moveableObstacles.Contains(hit.transform.gameObject))
+                    {
+                        MeshRenderer gameObjectRenderer = hit.transform.gameObject.GetComponent<MeshRenderer>();
+                        gameObjectRenderer.material = DeselectedColor;
+                        moveableObstacles.Remove(hit.transform.gameObject);
+                    }
+                    else
+                    {
+                        MeshRenderer gameObjectRenderer = hit.transform.gameObject.GetComponent<MeshRenderer>();
+                        gameObjectRenderer.material = SelectedColor;
+                        moveableObstacles.Add(hit.transform.gameObject);
+                        objectsMoveable = true;
+                    }
+                }
             }
 
             foreach (var item in GroupAgents)
@@ -117,6 +134,20 @@ public class ObjectSelection : MonoBehaviour
                 //Destroy(hit.transform.gameObject);
             }
             // */
+        }
+        if(objectsMoveable == true)
+        {
+            foreach (var item in moveableObstacles)
+            {
+                if((Input.GetKey(KeyCode.UpArrow)))
+                item.transform.gameObject.transform.Translate(Vector3.forward * Time.deltaTime * 25);
+                if ((Input.GetKey(KeyCode.DownArrow)))
+                    item.transform.gameObject.transform.Translate(-Vector3.forward * Time.deltaTime * 25);
+                if ((Input.GetKey(KeyCode.LeftArrow)))
+                    item.transform.gameObject.transform.Translate(Vector3.left * Time.deltaTime * 25);
+                if ((Input.GetKey(KeyCode.RightArrow)))
+                    item.transform.gameObject.transform.Translate(Vector3.right * Time.deltaTime*25);
+            }
         }
     }
     public bool IsInList(GameObject agent)
