@@ -11,6 +11,7 @@ public class AgentCreater : MonoBehaviour
     Vector3 location;
     GameObject Selectionmanager;
     public Material SelectedColor;
+    public Material DeselectedColor;
     private int Count;
 
 
@@ -24,12 +25,12 @@ public class AgentCreater : MonoBehaviour
 
         while (Count < agentCount)
         {
-            location = new Vector3((Random.value-0.5f) * radius, 0.5f, (Random.value-0.5f) * radius);
+            location = new Vector3((Random.value - 0.5f) * radius, 0.5f, (Random.value - 0.5f) * radius);
             var newAgent = Instantiate(agent, location, Quaternion.identity);
 
             //var a = newAgent.GetComponent<Rigidbody>();
             //a.AddForce(100,0,0);
-            
+
             //newAgent.transform.position = new Vector3((Random.value - 0.5f) * radius, 0.5f, ((Random.value - 0.5f)) * radius);
             newAgent.name = "a" + Count;
             newAgent.transform.parent = agParent.transform;
@@ -47,8 +48,8 @@ public class AgentCreater : MonoBehaviour
     {
 
         var agParent = GameObject.Find("AgentCreator");
-        var newcount = Count + 5;
-        while (Count < newcount)
+        agentCount = Count + 5;
+        while (Count < agentCount)
         {
             location = new Vector3((Random.value - 0.5f) * radius, 0.5f, (Random.value - 0.5f) * radius);
             var newAgent = Instantiate(agent, location, Quaternion.identity);
@@ -65,6 +66,16 @@ public class AgentCreater : MonoBehaviour
             MeshRenderer gameObjectRenderer = item.gameObject.GetComponent<MeshRenderer>();
             gameObjectRenderer.material = SelectedColor;
             Selectionmanager.gameObject.GetComponent<ObjectSelection>().GroupAgents.Add(item);
+        }
+    }
+    public void DeselectAll()
+    {
+        foreach (var item in CreatedAgents)
+        {
+            MeshRenderer gameObjectRenderer = item.gameObject.GetComponent<MeshRenderer>();
+            gameObjectRenderer.material = DeselectedColor;
+            if(Selectionmanager.gameObject.GetComponent<ObjectSelection>().GroupAgents.Contains(item))
+            Selectionmanager.gameObject.GetComponent<ObjectSelection>().GroupAgents.Remove(item);
         }
     }
 }
