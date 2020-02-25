@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class ObjectSelection : MonoBehaviour
 {
-    public static HashSet<GameObject> GroupAgents = new HashSet<GameObject>();
+    public HashSet<GameObject> GroupAgents = new HashSet<GameObject>();
     public Material SelectedColor;
     public Material DeselectedColor;
     public static HashSet<GameObject> moveableObstacles = new HashSet<GameObject>();
