@@ -47,12 +47,12 @@ public class AgentCreater : MonoBehaviour
     {
 
         var agParent = GameObject.Find("AgentCreator");
-
-        while (Count < Count +5)
+        var newcount = Count + 5;
+        while (Count < newcount)
         {
             location = new Vector3((Random.value - 0.5f) * radius, 0.5f, (Random.value - 0.5f) * radius);
             var newAgent = Instantiate(agent, location, Quaternion.identity);
-            newAgent.name = "extra" + Count;
+            newAgent.name = "a" + Count;
             newAgent.transform.parent = agParent.transform;
             CreatedAgents.Add(newAgent);
             Count++;
