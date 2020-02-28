@@ -55,40 +55,46 @@ public class ObjectSelection : MonoBehaviour
 
             RaycastHit[] hits = Physics.RaycastAll(ray);
 
-            Debug.Log(hits.Length);
+            //Debug.Log(hits.Length);
 
-            if(hits.Length == 0)
+            if (hits.Length == 0)
             {
                 return;
             }
-            
-            Vector3 dest = new Vector3(0,0,0);
+
+            Vector3 dest = new Vector3(0, 0, 0);
+
+            HashSet<GameObject> added = new HashSet<GameObject>();
 
             foreach (RaycastHit hit in hits)
             {
                 if (hit.transform.tag == "Floor")
                 {
                     dest = hit.point;
+                    Instantiate(errorSphere, hit.point, Quaternion.identity);
+                    
                 }
-                //else
-                if (hit.transform.tag == "Agent")
+
+                else if (hit.transform.tag == "Agent")
                 {
-                    if (GroupAgents.Contains(hit.transform.gameObject))
-                    {
-                        MeshRenderer gameObjectRenderer = hit.transform.gameObject.GetComponent<MeshRenderer>();
-                        gameObjectRenderer.material = DeselectedColor;
-                        GroupAgents.Remove(hit.transform.gameObject);
-                        hit.transform.gameObject.GetComponent<SetTarger>().SetDestination(hit.transform.position);
-                    }
-                    else
+                    if (!GroupAgents.Contains(hit.transform.gameObject))
                     {
                         MeshRenderer gameObjectRenderer = hit.transform.gameObject.GetComponent<MeshRenderer>();
                         gameObjectRenderer.material = SelectedColor;
                         GroupAgents.Add(hit.transform.gameObject);
+                        added.Add(hit.transform.gameObject);
+                    }
+                    else if(!added.Contains(hit.transform.gameObject))
+                    {
+                        MeshRenderer gameObjectRenderer = hit.transform.gameObject.GetComponent<MeshRenderer>();
+                        gameObjectRenderer.material = DeselectedColor;
+                        GroupAgents.Remove(hit.transform.gameObject);
+                        hit.transform.gameObject.GetComponent<SetTarget>().SetDestination(hit.transform.position);
+
                     }
                     return;
                 }
-                if (hit.transform.tag == "moveObstacle")
+                else if (hit.transform.tag == "moveObstacle")
                 {
                     if (moveableObstacles.Contains(hit.transform.gameObject))
                     {
@@ -125,72 +131,25 @@ public class ObjectSelection : MonoBehaviour
 
             foreach (var item in GroupAgents)
             {
-                item.transform.gameObject.GetComponent<SetTarger>().SetDestination(dest);
+                item.transform.gameObject.GetComponent<SetTarget>().setImmobile(false);
+                item.transform.gameObject.GetComponent<SetTarget>().SetDestination(dest);
             }
-            
+     
+		//print("Destination: " + dest.ToString());
 
-            /*
-            if (Physics.Raycast(ray, out hit))
-            {
-                Debug.DrawRay(transform.position, ray.direction * hit.distance, Color.yellow);
-
-                Vector3 desiredLoc = hit.point;
-
-                 
-                //var sphere = Instantiate(errorSphere, desiredLoc, Quaternion.identity);
-
-                Debug.Log(desiredLoc);
-                Debug.Log(hit.transform.tag);
-
-                if (hit.transform.tag == "Agent")
-                {
-                    Debug.Log(GroupAgents.Count);
-
-                     if (GroupAgents.Contains(hit.transform.gameObject))
-                     {
-                        MeshRenderer gameObjectRenderer = hit.transform.gameObject.GetComponent<MeshRenderer>();
-                        gameObjectRenderer.material = DeselectedColor;
-                        GroupAgents.Remove(hit.transform.gameObject);
-
-                     }
-                     else
-                     {
-                        MeshRenderer gameObjectRenderer = hit.transform.gameObject.GetComponent<MeshRenderer>();
-                        gameObjectRenderer.material = SelectedColor;
-                        GroupAgents.Add(hit.transform.gameObject);
-                     }
-                }
-                else if (hit.transform.tag == "Floor")
-                {
-                    //agentFab.SetDestination(desiredLoc);
-                   // if (Camera.main.gameObject.GetComponent<ObjectSelection>().IsInList(gameObject))
-                    //{
-
-                        //var sphere = Instantiate(errorSphere, desiredLoc, Quaternion.identity);
-
-                        foreach (var item in GroupAgents)
-                        {
-                            item.transform.gameObject.GetComponent<SetTarger>().SetDestination(hit.point);
-                        }
-                        
-                   // }
-                }
-                //Destroy(hit.transform.gameObject);
-            }
-            // */
         }
-        if(objectsMoveable == true)
+        if (objectsMoveable == true)
         {
             foreach (var item in moveableObstacles)
             {
-                if((Input.GetKey(KeyCode.UpArrow)))
-                item.transform.gameObject.transform.Translate(Vector3.forward * Time.deltaTime * 25);
+                if ((Input.GetKey(KeyCode.UpArrow)))
+                    item.transform.gameObject.transform.Translate(Vector3.forward * Time.deltaTime * 25);
                 if ((Input.GetKey(KeyCode.DownArrow)))
                     item.transform.gameObject.transform.Translate(-Vector3.forward * Time.deltaTime * 25);
                 if ((Input.GetKey(KeyCode.LeftArrow)))
                     item.transform.gameObject.transform.Translate(Vector3.left * Time.deltaTime * 25);
                 if ((Input.GetKey(KeyCode.RightArrow)))
-                    item.transform.gameObject.transform.Translate(Vector3.right * Time.deltaTime*25);
+                    item.transform.gameObject.transform.Translate(Vector3.right * Time.deltaTime * 25);
             }
         }
     }
@@ -226,4 +185,3 @@ public class ObjectSelection : MonoBehaviour
         }
     }*/
 }
-    

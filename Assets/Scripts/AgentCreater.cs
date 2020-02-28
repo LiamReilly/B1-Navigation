@@ -10,6 +10,7 @@ public class AgentCreater : MonoBehaviour
     public GameObject agent;
     public GameObject Adversary;
     public int agentCount;
+
     Vector3 location;
     GameObject Selectionmanager;
     public Material SelectedColor;
@@ -23,10 +24,11 @@ public class AgentCreater : MonoBehaviour
     {
         Selectionmanager = GameObject.Find("Main Camera");
         Count = 0;
+
         radius = radius * 2;
         var agParent = GameObject.Find("AgentCreator");
 
-        while (Count < agentCount)
+        for (int i = 0; i < agentCount; i++)
         {
             location = new Vector3((Random.value - 0.5f) * radius, 0.5f, (Random.value - 0.5f) * radius);
             var newAgent = Instantiate(agent, location, Quaternion.identity);
@@ -35,10 +37,12 @@ public class AgentCreater : MonoBehaviour
             //a.AddForce(100,0,0);
 
             //newAgent.transform.position = new Vector3((Random.value - 0.5f) * radius, 0.5f, ((Random.value - 0.5f)) * radius);
-            newAgent.name = "a" + Count;
+            newAgent.name = "a" + i;
             newAgent.transform.parent = agParent.transform;
+
             CreatedAgents.Add(newAgent);
             Count++;
+
         }
     }
     /*
