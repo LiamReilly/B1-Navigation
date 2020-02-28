@@ -82,4 +82,13 @@ public class CameraMovement : MonoBehaviour
         return returnee;
 
     }
+    public void IncreaseSpeed()
+    {
+        speed +=2;
+    }
+    public void DecreaseSpeed()
+    {
+        if(speed>2)
+        speed-=2;
+    }
 }

@@ -5,14 +5,17 @@ using UnityEngine;
 public class AgentCreater : MonoBehaviour
 {
     public static HashSet<GameObject> CreatedAgents = new HashSet<GameObject>();
+    public HashSet<GameObject> CreatedAd = new HashSet<GameObject>();
     public float radius;
     public GameObject agent;
+    public GameObject Adversary;
     public int agentCount;
     Vector3 location;
     GameObject Selectionmanager;
     public Material SelectedColor;
     public Material DeselectedColor;
     private int Count;
+    private int AdCount;
 
 
     // Start is called before the first frame update
@@ -74,8 +77,21 @@ public class AgentCreater : MonoBehaviour
         {
             MeshRenderer gameObjectRenderer = item.gameObject.GetComponent<MeshRenderer>();
             gameObjectRenderer.material = DeselectedColor;
-            if(Selectionmanager.gameObject.GetComponent<ObjectSelection>().GroupAgents.Contains(item))
-            Selectionmanager.gameObject.GetComponent<ObjectSelection>().GroupAgents.Remove(item);
+            if (Selectionmanager.gameObject.GetComponent<ObjectSelection>().GroupAgents.Contains(item))
+            {
+                Selectionmanager.gameObject.GetComponent<ObjectSelection>().GroupAgents.Remove(item);
+                item.GetComponent<SetTarger>().SetDestination(item.transform.position);
+            }
+            
         }
+    }
+    public void CreateAdversary()
+    {
+        AdCount++;
+        location = new Vector3(0f, .5f, 0f);
+        var newAdversary = Instantiate(Adversary, location, Quaternion.identity);
+        newAdversary.name = "E" + AdCount;
+        //newAdversary.gameObject
+        CreatedAd.Add(newAdversary);
     }
 }

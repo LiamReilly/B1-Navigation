@@ -16,7 +16,7 @@ public class SetTarger : MonoBehaviour
     public static HashSet<GameObject> GroupAgents = new HashSet<GameObject>();
     // */
 
-    
+    public Rigidbody rb;
     NavMeshAgent agentFab;
 
     // Start is called before the first frame update
@@ -24,6 +24,7 @@ public class SetTarger : MonoBehaviour
     {
 
         agentFab = GetComponent<NavMeshAgent>();
+        rb = GetComponent<Rigidbody>();
 
 
         /*
@@ -87,6 +88,11 @@ public class SetTarger : MonoBehaviour
     {
         
             agentFab.SetDestination(destination);
+    }
+    public void pushBack(Vector3 direction)
+    {
+        //rb.AddForce(direction);
+        gameObject.transform.Translate(direction);
     }
 }
 
