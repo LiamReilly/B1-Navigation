@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class SetTarget : MonoBehaviour
 {
     NavMeshAgent agentFab;
+    Rigidbody rb;
     private bool immobile;
     private const float AGENT_AREA = 0.25f;
     private const float THRESHOLD = 0.3f;
@@ -13,11 +14,14 @@ public class SetTarget : MonoBehaviour
     private float bumpCount = 1;
     private float currDistSqr = 100;
 
+    ObjectSelection Selectionmanager;
+
     // Start is called before the first frame update
     void Start()
     {
         agentFab = GetComponent<NavMeshAgent>();
-		rb = GetComponent<Rigidbody>();
+        Selectionmanager = GameObject.Find("Main Camera").gameObject.GetComponent<ObjectSelection>();
+		//rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -31,6 +35,10 @@ public class SetTarget : MonoBehaviour
             setImmobile(true);
             bumpCount = 1;
         }
+
+        if(immobile){
+            SetDestination(transform.position);
+        }
     }
 
     void OnTriggerStay(Collider other)
@@ -38,7 +46,7 @@ public class SetTarget : MonoBehaviour
 
         if (!immobile && other.gameObject.CompareTag("Agent") && other.gameObject.GetComponent<SetTarget>().getImmobile())
         {
-            float recommendedDistSqr = 0.25f + ObjectSelection.GroupAgents.Count * bumpCount * AGENT_AREA / Mathf.PI;
+            float recommendedDistSqr = Selectionmanager.GroupAgents.Count * bumpCount * AGENT_AREA/2 / Mathf.PI;
             bumpCount *= BUMP_STEP;
             currDistSqr = (agentFab.destination - gameObject.transform.position).sqrMagnitude;
             //print("ReccDistSqr: " + recommendedDistSqr.ToString() + ", CurrDistSqr: "+ currDistSqr.ToString());
@@ -64,6 +72,7 @@ public class SetTarget : MonoBehaviour
     public void setImmobile(bool immobile)
     {
         this.immobile = immobile;
+        agentFab.isStopped = immobile;
         SetDestination(gameObject.transform.position);
         //print("Made agent " + gameObject.name +" immobile" + immobile);
     }

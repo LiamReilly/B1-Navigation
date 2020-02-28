@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    private int speed=5;
-    private int vSpeed = 3;
+    private float speed = 6;
+    private float vSpeed = 3;
     public int hMouseSpeed = 3;
     public int vMouseSpeed = 3;
     private bool invertY = true;
@@ -84,11 +84,14 @@ public class CameraMovement : MonoBehaviour
     }
     public void IncreaseSpeed()
     {
+        vSpeed++;
         speed +=2;
     }
     public void DecreaseSpeed()
     {
-        if(speed>2)
-        speed-=2;
+        if(speed>2){
+            speed-=2;
+            vSpeed--;
+        }
     }
 }

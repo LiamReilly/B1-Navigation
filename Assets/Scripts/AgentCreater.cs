@@ -12,7 +12,7 @@ public class AgentCreater : MonoBehaviour
     public int agentCount;
 
     Vector3 location;
-    GameObject Selectionmanager;
+    ObjectSelection Selectionmanager;
     public Material SelectedColor;
     public Material DeselectedColor;
     private int Count;
@@ -22,7 +22,7 @@ public class AgentCreater : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Selectionmanager = GameObject.Find("Main Camera");
+        Selectionmanager = GameObject.Find("Main Camera").gameObject.GetComponent<ObjectSelection>();
         Count = 0;
 
         radius = radius * 2;
@@ -72,7 +72,7 @@ public class AgentCreater : MonoBehaviour
         {
             MeshRenderer gameObjectRenderer = item.gameObject.GetComponent<MeshRenderer>();
             gameObjectRenderer.material = SelectedColor;
-            Selectionmanager.gameObject.GetComponent<ObjectSelection>().GroupAgents.Add(item);
+            Selectionmanager.GroupAgents.Add(item);
         }
     }
     public void DeselectAll()
@@ -81,10 +81,10 @@ public class AgentCreater : MonoBehaviour
         {
             MeshRenderer gameObjectRenderer = item.gameObject.GetComponent<MeshRenderer>();
             gameObjectRenderer.material = DeselectedColor;
-            if (Selectionmanager.gameObject.GetComponent<ObjectSelection>().GroupAgents.Contains(item))
+            if (Selectionmanager.GroupAgents.Contains(item))
             {
-                Selectionmanager.gameObject.GetComponent<ObjectSelection>().GroupAgents.Remove(item);
-                item.GetComponent<SetTarger>().SetDestination(item.transform.position);
+                Selectionmanager.GroupAgents.Remove(item);
+                item.GetComponent<SetTarget>().SetDestination(item.transform.position);
             }
             
         }
