@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public Material kapadia;
     public Material grass;
     private GameObject Room1;
+    AudioSource WinPlanManager;
+    private bool playing = false;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +28,8 @@ public class GameManager : MonoBehaviour
         MC = GameObject.Find("Main Camera");
         VideoOn = false;
         Room1 = GameObject.Find("Room1");
+        //CameraManager = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+        WinPlanManager = GameObject.Find("VictoryPlane").GetComponent<AudioSource>();
 
     }
 
@@ -79,5 +83,11 @@ public class GameManager : MonoBehaviour
             MeshRenderer gameObjectRenderer = Room1.gameObject.GetComponent<MeshRenderer>();
             gameObjectRenderer.material = grass;
         }
+    }
+    public void Mute()
+    {
+        source1.mute = !source1.mute;
+        
+        WinPlanManager.mute = !WinPlanManager.mute;
     }
 }
